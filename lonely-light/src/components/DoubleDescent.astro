@@ -176,9 +176,9 @@
 	}
 
 	@media (max-width: 700px) {
-		.double-descent { overflow-x: auto; }
-		.double-descent svg { min-width: 520px; }
-		.plot-head { position: sticky; left: 0; z-index: 2; width: calc(100vw - 2 * var(--gutter)); min-height: 56px; background: #fbfcff; }
+		.double-descent { overflow: hidden; }
+		.double-descent svg { min-width: 0; }
+		.plot-head { min-height: 56px; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {

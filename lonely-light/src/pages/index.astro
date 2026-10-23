@@ -204,7 +204,12 @@ const experience = [
 			</section>
 		</main>
 
-		<aside class="curve-rail" aria-label="Site navigation using a double-descent curve">
+		<button class="mobile-map-toggle" type="button" data-map-open aria-expanded="false" aria-controls="portfolio-map">
+			<span aria-hidden="true">⌁</span> Map
+		</button>
+		<button class="mobile-map-backdrop" type="button" data-map-close aria-label="Close portfolio map"></button>
+		<aside id="portfolio-map" class="curve-rail" aria-label="Site navigation using a double-descent curve">
+			<button class="mobile-map-close" type="button" data-map-close aria-label="Close portfolio map">Close <span aria-hidden="true">×</span></button>
 			<div class="curve-sticky"><DoubleDescent /></div>
 		</aside>
 	</div>
@@ -216,6 +221,7 @@ const experience = [
 	.story-content { grid-area: 1 / 1; min-width: 0; }
 	.curve-rail { grid-area: 1 / 2; min-width: 0; }
 	.curve-sticky { position: sticky; top: clamp(5.5rem, 10vh, 8rem); display: flex; min-height: calc(100vh - 8rem); align-items: center; padding-block: 2rem; }
+	.mobile-map-toggle, .mobile-map-close, .mobile-map-backdrop { display: none; }
 	.stage-section { min-height: 82svh; padding-block: clamp(4.25rem, 9vh, 7rem); scroll-margin-top: 4rem; }
 	.intro { display: flex; min-height: calc(100svh - 70px); flex-direction: column; justify-content: center; padding-top: 5rem; }
 	.intro-identity { min-width: 0; }
@@ -311,8 +317,17 @@ const experience = [
 		.story-content { display: contents; }
 		.stage-section { width: 100%; min-width: 0; }
 		.intro { order: 1; min-height: auto; padding-bottom: 5rem; }
-		.curve-rail { position: sticky; top: 62px; z-index: 30; order: 2; width: 100%; max-width: 100%; padding-block: 0; overflow: hidden; background: var(--paper); }
-		.curve-sticky { position: static; min-height: 0; padding-block: .5rem; }
+		.mobile-map-toggle { position: fixed; top: 48%; right: 0; z-index: 70; display: flex; align-items: center; gap: .35rem; padding: .65rem .7rem .65rem .6rem; border: 1px solid var(--ink); border-right: 0; border-radius: 999px 0 0 999px; background: #fbfcff; color: var(--ink); box-shadow: 0 8px 30px rgba(17, 19, 18, .14); font: 700 .62rem/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+		.mobile-map-toggle span { color: #185ee6; font-size: 1.2rem; line-height: .5; }
+		.mobile-map-backdrop { position: fixed; inset: 0; z-index: 80; display: block; border: 0; background: rgba(17, 19, 18, .42); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+		.curve-rail { position: fixed; inset: 0 0 0 auto; z-index: 90; display: block; width: min(92vw, 450px); max-width: none; padding: 4.5rem 1rem 1.25rem; overflow-y: auto; background: var(--paper); box-shadow: -24px 0 70px rgba(17, 19, 18, .2); transform: translateX(105%); visibility: hidden; transition: transform .32s cubic-bezier(.2, .75, .2, 1), visibility 0s .32s; }
+		.curve-sticky { position: static; display: block; min-height: 0; padding: 0; }
+		.mobile-map-close { position: absolute; top: 1.2rem; right: 1rem; display: flex; align-items: center; gap: .5rem; border: 0; background: transparent; color: var(--ink); font: 700 .62rem/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+		.mobile-map-close span { font: 400 1.45rem/1 var(--sans); }
+		:global(body.mobile-map-open) { overflow: hidden; }
+		:global(body.mobile-map-open) .curve-rail { transform: translateX(0); visibility: visible; transition-delay: 0s; }
+		:global(body.mobile-map-open) .mobile-map-backdrop { opacity: 1; pointer-events: auto; }
+		:global(body.mobile-map-open) .mobile-map-toggle { opacity: 0; pointer-events: none; }
 		#experience { order: 3; }
 		#education { order: 4; }
 		#projects { order: 5; }
@@ -328,7 +343,6 @@ const experience = [
 		.intro-photo { width: 4rem; height: 4rem; }
 		.role { font-size: 1.48rem; }
 		.stage-head h2 { font-size: clamp(3.5rem, 18vw, 5.5rem); }
-		.curve-rail { top: 57px; }
 		.timeline summary { grid-template-columns: 1fr 1.2rem; gap: .65rem; }
 		.job-when, .job-heading { grid-column: 1; }
 		.timeline summary i { grid-column: 2; grid-row: 1 / 3; }
@@ -343,3 +357,51 @@ const experience = [
 		.research-detail { padding-left: .3rem; padding-right: .3rem; }
 	}
 </style>
+
+<script>
+	const mapRail = document.querySelector('#portfolio-map');
+	const mapToggle = document.querySelector('[data-map-open]');
+	const mapCloseButtons = document.querySelectorAll('[data-map-close]');
+	const mobileMap = window.matchMedia('(max-width: 900px)');
+
+	function setMapAccessibility(isOpen) {
+		if (!(mapRail instanceof HTMLElement) || !(mapToggle instanceof HTMLButtonElement)) return;
+		mapToggle.setAttribute('aria-expanded', String(isOpen));
+		mapRail.setAttribute('aria-hidden', String(!isOpen));
+		if (isOpen) mapRail.removeAttribute('inert');
+		else mapRail.setAttribute('inert', '');
+	}
+
+	function openMobileMap() {
+		if (!mobileMap.matches) return;
+		document.body.classList.add('mobile-map-open');
+		setMapAccessibility(true);
+		mapRail?.querySelector('button')?.focus();
+	}
+
+	function closeMobileMap(restoreFocus = true) {
+		document.body.classList.remove('mobile-map-open');
+		if (mobileMap.matches) setMapAccessibility(false);
+		if (restoreFocus && mapToggle instanceof HTMLButtonElement) mapToggle.focus();
+	}
+
+	function syncMapMode() {
+		if (mobileMap.matches) closeMobileMap(false);
+		else {
+			document.body.classList.remove('mobile-map-open');
+			mapRail?.removeAttribute('aria-hidden');
+			mapRail?.removeAttribute('inert');
+		}
+	}
+
+	mapToggle?.addEventListener('click', openMobileMap);
+	mapCloseButtons.forEach((button) => button.addEventListener('click', () => closeMobileMap()));
+	mapRail?.querySelectorAll('[data-plot-point]').forEach((point) => {
+		point.addEventListener('click', () => window.setTimeout(() => closeMobileMap(false), 40));
+	});
+	window.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && document.body.classList.contains('mobile-map-open')) closeMobileMap();
+	});
+	mobileMap.addEventListener('change', syncMapMode);
+	syncMapMode();
+</script>
