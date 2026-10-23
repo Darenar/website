@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { withBase } from '../../utils/paths';
 import { papers } from '../../data/site';
 
 const paper = papers[0];
@@ -11,7 +12,7 @@ const paper = papers[0];
 >
 	<article class="story page-shell">
 		<header class="story-header rule">
-			<a class="back-link" href="/research/">← Research index</a>
+			<a class="back-link" href={withBase('/research/')}>← Research index</a>
 			<div class="story-meta">
 				<p class="eyebrow">Visual explainer · Paper 01</p>
 				<p>About 10 minutes · no finance background needed</p>

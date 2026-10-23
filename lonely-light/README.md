@@ -22,6 +22,9 @@ Run these from this directory:
 | `npm run build` | Build the production site to `dist/` |
 | `npm run preview` | Preview the production build |
 
+Pushes to `master` are deployed to GitHub Pages by the workflow in
+`.github/workflows/deploy.yml` at the repository root.
+
 ## Content still to personalise
 
 - Replace the current public-profile portrait if a different LinkedIn photograph is preferred.

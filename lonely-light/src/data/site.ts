@@ -1,3 +1,5 @@
+import { withBase } from '../utils/paths';
+
 export const profile = {
 	name: 'Vladislav Pyzhov',
 	title: 'Senior Machine Learning Engineer and Data Scientist',
@@ -71,13 +73,13 @@ export const papers = [
 		visual: 'figures',
 		figures: [
 			{
-				src: '/research/esg-market-impact.png',
+				src: withBase('/research/esg-market-impact.png'),
 				alt: 'Rolling estimates of stock-market reactions to positive and negative ESG news from 2002 to 2021',
 				caption: 'Estimated market reaction to positive and negative ESG news over time.',
 			},
 		],
 		url: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6043934',
-		article: '/research/esg-market-impact/',
+		article: withBase('/research/esg-market-impact/'),
 	},
 	{
 		title: 'Media ESG Scores and the Cross-Section of Stock Returns',
@@ -101,12 +103,12 @@ export const papers = [
 		visual: 'figures',
 		figures: [
 			{
-				src: '/research/traditional-esg-returns.png',
+				src: withBase('/research/traditional-esg-returns.png'),
 				alt: 'Cumulative returns of portfolios sorted on traditional ESG scores compared with the market',
 				caption: 'Traditional ESG scores: cumulative returns of the top and bottom portfolios.',
 			},
 			{
-				src: '/research/media-esg-returns.png',
+				src: withBase('/research/media-esg-returns.png'),
 				alt: 'Cumulative returns of portfolios sorted on media ESG scores compared with the market',
 				caption: 'Media ESG scores: cumulative returns of the top and bottom portfolios.',
 			},
@@ -124,12 +126,12 @@ export const papers = [
 		visual: 'figures',
 		figures: [
 			{
-				src: '/research/markowitz-efficient-frontier.png',
+				src: withBase('/research/markowitz-efficient-frontier.png'),
 				alt: 'Mean-variance efficient frontier comparing the Markowitz, market and ESG-centroid portfolios',
 				caption: 'Markowitz frontier: expected return against portfolio risk.',
 			},
 			{
-				src: '/research/esg-efficient-frontier.png',
+				src: withBase('/research/esg-efficient-frontier.png'),
 				alt: 'ESG-efficient frontier comparing the Markowitz, market and ESG-centroid portfolios',
 				caption: 'ESG frontier: portfolio ESG score against portfolio risk.',
 			},
@@ -146,23 +148,23 @@ export const papers = [
 			'How should one rank two firms with a similar level of environmental performance but a different level of environmental materiality? Starting from the influential work of Pástor, Stambaugh and Taylor, we show that the mechanical decision of how strongly to penalize or reward environmental materiality can substantially reclassify the same firms from green to brown, and can flip the sign of the estimated premium. The premium associated with environmental materiality holds even within industries, suggesting that what the market prices is a firm’s exposure to environmental issues rather than its level of environmental performance. Any conclusion about green assets, in short, ultimately rests on what “green” is defined to be.',
 		visual: 'greenness-classification',
 		industryFigure: {
-			src: '/research/greenness-industry-map.png',
+			src: withBase('/research/greenness-industry-map.png'),
 			alt: 'Firm observations in environmental score and environmental weight space, coloured by industry',
 			caption: 'The same E-score and E-weight space, first coloured by industry.',
 		},
 		figures: [
 			{
-				src: '/research/greenness-classification-pastor.png',
+				src: withBase('/research/greenness-classification-pastor.png'),
 				alt: 'Firm greenness classifications when environmental materiality receives full weight',
 				caption: 'λ = 1: environmental materiality receives full weight.',
 			},
 			{
-				src: '/research/greenness-classification-pool.png',
+				src: withBase('/research/greenness-classification-pool.png'),
 				alt: 'Firm greenness classifications when environmental materiality receives half weight',
 				caption: 'λ = 0.5: a pooled definition between the two extremes.',
 			},
 			{
-				src: '/research/greenness-classification-pyzhov.png',
+				src: withBase('/research/greenness-classification-pyzhov.png'),
 				alt: 'Firm greenness classifications when environmental materiality is not penalized',
 				caption: 'λ = 0: environmental materiality is not penalized.',
 			},

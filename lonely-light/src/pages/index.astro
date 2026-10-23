@@ -4,6 +4,7 @@ import DoubleDescent from '../components/DoubleDescent.astro';
 import AccentorsPlayer from '../components/AccentorsPlayer.astro';
 import PaperVisual from '../components/PaperVisual.astro';
 import { conferences, papers, projects } from '../data/site';
+import { withBase } from '../utils/paths';
 
 const featuredProjects = projects.filter((project) => project.featured);
 const experience = [
@@ -67,7 +68,7 @@ const experience = [
 				</div>
 				<p class="role">Senior Machine Learning Engineer and Data Scientist.</p>
 				<div class="intro-about">
-					<img class="intro-photo" src="/vladislav-pyzhov.png" alt="Vlad Pyzhov speaking at a presentation" />
+					<img class="intro-photo" src={withBase('/vladislav-pyzhov.png')} alt="Vlad Pyzhov speaking at a presentation" />
 					<p class="intro-copy">I build ML systems and research how financial markets respond to ESG information. Based in Sydney.</p>
 				</div>
 			</section>

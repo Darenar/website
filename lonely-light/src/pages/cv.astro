@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { profile } from '../data/site';
+import { withBase } from '../utils/paths';
+
+const cvUrl = withBase('/Vladislav-Pyzhov-CV.pdf');
 ---
 
 <Layout title="CV — Vladislav Pyzhov" description="Curriculum vitae of Vladislav Pyzhov, Machine Learning Engineer and Finance PhD Candidate.">
@@ -8,13 +11,13 @@ import { profile } from '../data/site';
 		<header class="cv-head rule">
 			<div><p class="eyebrow">Curriculum vitae</p><h1>{profile.name}</h1><p>{profile.title}<br />{profile.location}</p></div>
 			<div class="cv-actions">
-				<a class="btn primary" href="/Vladislav-Pyzhov-CV.pdf" download>Download PDF <span>↓</span></a>
-				<a class="btn" href="/Vladislav-Pyzhov-CV.pdf" target="_blank">Open PDF <span>↗</span></a>
+				<a class="btn primary" href={cvUrl} download>Download PDF <span>↓</span></a>
+				<a class="btn" href={cvUrl} target="_blank">Open PDF <span>↗</span></a>
 			</div>
 		</header>
 		<div class="pdf-frame">
-			<object data="/Vladislav-Pyzhov-CV.pdf" type="application/pdf" aria-label="Vladislav Pyzhov curriculum vitae">
-				<p>Your browser cannot display the PDF here. <a href="/Vladislav-Pyzhov-CV.pdf">Open the CV directly.</a></p>
+			<object data={cvUrl} type="application/pdf" aria-label="Vladislav Pyzhov curriculum vitae">
+				<p>Your browser cannot display the PDF here. <a href={cvUrl}>Open the CV directly.</a></p>
 			</object>
 		</div>
 	</div>
