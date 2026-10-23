@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DoubleDescent from '../components/DoubleDescent.astro';
+import AccentorsPlayer from '../components/AccentorsPlayer.astro';
+import PaperVisual from '../components/PaperVisual.astro';
+import { conferences, papers, projects } from '../data/site';
+
+const featuredProjects = projects.filter((project) => project.featured);
+const experience = [
+	{
+		period: 'Jul—Oct 2025',
+		location: 'Sydney, Australia',
+		position: 'Senior Machine Learning Engineer',
+		organisation: 'Luxury Escapes',
+		industry: 'Luxury travel booking platform.',
+		details: [
+			'Developed a two-stage recommendation system combining neural retrieval with gradient-boosted ranking, with improvements validated through online A/B tests.',
+			'Built a model-agnostic evaluation framework covering both retrieval and ranking metrics.',
+			'Developed alternative-destination recommendations from browsing and purchasing behaviour using hierarchical clustering and association rules.',
+		],
+	},
+	{
+		period: '2021—2025',
+		location: 'Helsinki, Finland · Remote',
+		position: 'Senior Data Scientist / ML Engineer',
+		organisation: 'N.Rich Technologies',
+		industry: 'B2B account-based marketing platform.',
+		details: [
+			'Developed B2B intent-scoring models from first- and third-party behavioural data, adopted by more than 20 clients.',
+			'Built Ideal Customer Profile models using firmographic, technographic and historical opportunity data.',
+			'Developed a multilingual NLP pipeline for automated keyword extraction from B2B websites.',
+		],
+	},
+	{
+		period: '2020—2021',
+		location: 'Novosibirsk, Russia',
+		position: 'Machine Learning Engineer',
+		organisation: 'EPAM Systems',
+		industry: 'Software engineering and technology consultancy.',
+		details: [
+			'Developed computer-vision systems for scanned-document table extraction and real-time facial segmentation.',
+			'Built interactive applications and deployment pipelines around the models.',
+			'Built a 3D object-tracking system using Mask R-CNN, stereo vision and depth estimation for industrial applications.',
+		],
+	},
+	{
+		period: '2017—2020',
+		location: 'Novosibirsk, Russia',
+		position: 'Machine Learning Engineer',
+		organisation: 'Zarplata.ru',
+		industry: 'Online job board and recruitment platform.',
+		details: [
+			'Developed a two-stage job recommendation system that increased job-offer clicks by 30% and direct replies by 5% in A/B tests.',
+			'Built NLP-based resume-parsing models.',
+			'The implemented resume flow encouraged 26% of anonymous users to submit a resume.',
+		],
+	},
+];
+---
+
+<Layout title="Vladislav Pyzhov — Senior Machine Learning Engineer and Data Scientist">
+	<div class="home-story">
+		<main class="story-content">
+			<section id="start" class="intro stage-section" data-curve-stage="intro">
+				<div class="intro-identity">
+					<p class="eyebrow">Hi, I’m</p><h1>Vlad<br />Pyzhov.</h1>
+				</div>
+				<p class="role">Senior Machine Learning Engineer and Data Scientist.</p>
+				<div class="intro-about">
+					<img class="intro-photo" src="/vladislav-pyzhov.png" alt="Vlad Pyzhov speaking at a presentation" />
+					<p class="intro-copy">I build ML systems and research how financial markets respond to ESG information. Based in Sydney.</p>
+				</div>
+			</section>
+
+			<section id="experience" class="stage-section" data-curve-stage="experience">
+				<header class="stage-head">
+					<p class="eyebrow">01 · Experience</p>
+					<h2>Experience.</h2>
+					<p>Machine-learning and data-science roles since 2017, with work spanning ranking, recommendation, NLP and computer vision.</p>
+				</header>
+				<div class="timeline">
+					{experience.map((job) => (
+						<details>
+							<summary>
+								<span class="job-when"><strong>{job.period}</strong><small>{job.location}</small></span>
+								<span class="job-heading"><span>{job.position}</span><strong>{job.organisation}</strong><small>{job.industry}</small></span>
+								<i aria-hidden="true">+</i>
+							</summary>
+							<div class="job-detail"><ul>{job.details.map((detail) => <li>{detail}</li>)}</ul></div>
+						</details>
+					))}
+				</div>
+			</section>
+
+			<section id="education" class="stage-section" data-curve-stage="education">
+				<header class="stage-head">
+					<p class="eyebrow">02 · Education</p>
+					<h2>Education.</h2>
+				</header>
+				<div class="education-grid">
+					<article class="study-card phd-study">
+						<p class="date">2023—2027 · Sydney, Australia</p>
+						<h3>PhD in Finance</h3>
+						<p class="place">University of Technology Sydney</p>
+						<p>Research in sustainable finance, empirical asset pricing and media-based ESG signals.</p>
+					</article>
+					<div class="earlier-studies">
+						<article class="study-card paris-study">
+							<p class="date">2016—2017 · Paris, France</p>
+							<h3>Master of Economics</h3>
+							<p class="place">Paris School of Economics · Paris 1 Panthéon-Sorbonne</p>
+							<p>Quantitative Economics</p>
+						</article>
+						<div class="novosibirsk-studies">
+							<article class="study-card">
+								<p class="date">2015—2017 · Novosibirsk, Russia</p>
+								<h3>Master of Economics</h3>
+								<p class="place">Novosibirsk State University</p>
+								<p>Quantitative Economics</p>
+							</article>
+							<article class="study-card">
+								<p class="date">2011—2017 · Novosibirsk, Russia</p>
+								<h3>Bachelor of Management</h3>
+								<p class="place">Novosibirsk State University</p>
+								<p>Management</p>
+							</article>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="projects" class="stage-section" data-curve-stage="projects">
+				<header class="stage-head">
+					<p class="eyebrow">03 · Projects</p>
+					<h2>Open-source projects.</h2>
+					<p>Public implementations and tools for event studies, asset pricing and portfolio analysis.</p>
+				</header>
+				<div class="project-list">
+					{featuredProjects.map((project, index) => (
+						<details>
+							<summary><span>0{index + 1}</span><h3>{project.name}</h3><i aria-hidden="true">+</i></summary>
+							<div class="project-detail">
+								<p>{project.description}</p>
+								<a class="text-link" href={project.url} target="_blank" rel="noreferrer">Open repository <span>↗</span></a>
+							</div>
+						</details>
+					))}
+				</div>
+			</section>
+
+			<section id="research" class="stage-section" data-curve-stage="research">
+				<header class="stage-head">
+					<p class="eyebrow">04 · Research</p>
+					<h2>Research.</h2>
+					<p>My PhD work examines how ESG information is identified and priced by financial markets.</p>
+				</header>
+				<div class="research-list">
+					{papers.map((paper, index) => (
+						<details>
+							<summary>
+								<span>0{index + 1}</span>
+								<span class="research-heading"><h3>{paper.title}</h3><small>{paper.year ? `${paper.year} · ${paper.status}` : paper.status}</small></span>
+								<i aria-hidden="true">+</i>
+							</summary>
+							<div class="research-detail">
+								<PaperVisual paper={paper} />
+								<p class="authors">{paper.authors}</p>
+								<div class="paper-abstract"><span>Abstract</span><p>{paper.summary}</p></div>
+								{(paper.article || paper.url) && <a class="text-link" href={paper.article || paper.url} target={paper.article ? undefined : '_blank'} rel={paper.article ? undefined : 'noreferrer'}>{paper.article ? 'Read the visual explainer' : 'Open the paper'} <span>→</span></a>}
+							</div>
+						</details>
+					))}
+				</div>
+			</section>
+
+			<section id="conferences" class="stage-section conferences-section" data-curve-stage="research">
+				<header class="stage-head">
+					<p class="eyebrow">Academic events</p>
+					<h2>Conferences & presentations.</h2>
+				</header>
+				<div class="conference-list">
+					{conferences.slice(0, 3).map((item) => (
+						<article><span>{item.year}</span><div><h3>{item.name}</h3><p>{item.place}</p></div></article>
+					))}
+					<details class="conference-more">
+						<summary>Show more presentations <i aria-hidden="true">+</i></summary>
+						<div>
+							{conferences.slice(3).map((item) => (
+								<article><span>{item.year}</span><div><h3>{item.name}</h3><p>{item.place}</p></div></article>
+							))}
+						</div>
+					</details>
+				</div>
+			</section>
+
+			<section id="off-duty" class="stage-section off-duty" data-curve-stage="off-duty">
+				<header class="stage-head">
+					<p class="eyebrow">05 · Beyond / off duty</p>
+					<h2>Outside work.</h2>
+					<p>I play music with my brother in Accentors.</p>
+				</header>
+				<AccentorsPlayer />
+			</section>
+		</main>
+
+		<aside class="curve-rail" aria-label="Site navigation using a double-descent curve">
+			<div class="curve-sticky"><DoubleDescent /></div>
+		</aside>
+	</div>
+</Layout>
+
+<style>
+	.home-story { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(390px, .72fr); gap: clamp(2.5rem, 5vw, 5.5rem); width: min(1580px, 100%); margin: 0 auto; padding-inline: var(--gutter); }
+	.story-content { grid-area: 1 / 1; min-width: 0; }
+	.curve-rail { grid-area: 1 / 2; min-width: 0; }
+	.curve-sticky { position: sticky; top: clamp(5.5rem, 10vh, 8rem); display: flex; min-height: calc(100vh - 8rem); align-items: center; padding-block: 2rem; }
+	.stage-section { min-height: 82svh; padding-block: clamp(4.25rem, 9vh, 7rem); scroll-margin-top: 4rem; }
+	.intro { display: flex; min-height: calc(100svh - 70px); flex-direction: column; justify-content: center; padding-top: 5rem; }
+	.intro-identity { min-width: 0; }
+	.intro h1 { margin: 0; font: 400 clamp(4.4rem, 7.7vw, 8rem)/.84 var(--serif); letter-spacing: -.075em; }
+	.intro-about { display: grid; grid-template-columns: 4.75rem minmax(0, 1fr); gap: 1rem; align-items: center; max-width: 610px; margin-top: 1.35rem; }
+	.intro-photo { width: 4.75rem; height: 4.75rem; border: 1px solid var(--ink); border-radius: 50%; object-fit: cover; object-position: center; filter: saturate(.88); }
+	.role { max-width: 600px; margin: 2rem 0 0; font: 400 clamp(1.7rem, 3vw, 3rem)/1.1 var(--serif); letter-spacing: -.035em; }
+	.intro-copy { max-width: 560px; margin: 0; color: var(--muted); font-size: clamp(.92rem, 1.2vw, 1.05rem); line-height: 1.58; }
+	.stage-section:not(.intro) { border-top: 1px solid var(--line); }
+	.stage-head { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+	.stage-head h2 { margin: .45rem 0 .9rem; font: 400 clamp(3.2rem, 5.5vw, 5.8rem)/.9 var(--serif); letter-spacing: -.06em; }
+	.stage-head > p:last-child { max-width: 650px; color: var(--muted); font-size: .94rem; line-height: 1.62; }
+	.date { color: var(--muted); font: 650 .6rem/1.5 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+	.place { color: var(--ink) !important; font: 650 .67rem/1.5 var(--mono); text-transform: uppercase; }
+
+	.timeline { border-top: 1px solid var(--ink); }
+	.timeline details { border-bottom: 1px solid var(--line); }
+	.timeline summary { display: grid; grid-template-columns: minmax(7.2rem, .42fr) minmax(0, 1fr) 1.2rem; gap: 1rem; align-items: center; padding: 1.05rem .15rem; cursor: pointer; list-style: none; }
+	.timeline summary::-webkit-details-marker { display: none; }
+	.job-when, .job-heading { display: grid; gap: .25rem; }
+	.job-when strong, .job-when small, .job-heading strong { font: 650 .58rem/1.4 var(--mono); letter-spacing: .035em; text-transform: uppercase; }
+	.job-when small { color: var(--muted); }
+	.job-heading > span { font: 400 clamp(1.25rem, 1.9vw, 1.75rem)/1.04 var(--serif); letter-spacing: -.025em; }
+	.job-heading strong { color: var(--muted); }
+	.job-heading small { color: #777b77; font-size: .7rem; line-height: 1.4; }
+	.timeline summary i { font: 400 1.3rem/1 var(--sans); transition: transform .2s; }
+	.timeline details[open] summary i { transform: rotate(45deg); }
+	.job-detail { padding: .15rem 1.8rem 1.15rem calc(42% + .6rem); }
+	.job-detail ul { margin: 0; padding-left: 1rem; }
+	.job-detail li { margin: .45rem 0; color: var(--muted); font-size: .82rem; line-height: 1.55; }
+
+	.education-grid { border: 1px solid var(--ink); }
+	.study-card { min-width: 0; }
+	.study-card h3 { max-width: 12ch; margin: .65rem 0; font-weight: 400; font-family: var(--serif); line-height: .96; letter-spacing: -.045em; }
+	.study-card p { max-width: 570px; margin: .4rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+	.phd-study { min-height: 18rem; padding: clamp(1.6rem, 3vw, 2.4rem); border-bottom: 1px solid var(--ink); }
+	.phd-study h3 { color: #185ee6; font-size: clamp(3rem, 5.4vw, 5.4rem); }
+	.earlier-studies { display: grid; grid-template-columns: 1fr 1fr; min-height: 18rem; }
+	.paris-study { display: flex; min-height: 18rem; flex-direction: column; justify-content: center; padding: clamp(1.45rem, 2.7vw, 2.1rem); border-right: 1px solid var(--ink); }
+	.paris-study h3 { font-size: clamp(2.1rem, 3.8vw, 3.6rem); }
+	.novosibirsk-studies { display: grid; grid-template-rows: 1fr 1fr; min-width: 0; }
+	.novosibirsk-studies .study-card { display: flex; min-height: 9rem; flex-direction: column; justify-content: center; padding: clamp(1rem, 1.8vw, 1.4rem); }
+	.novosibirsk-studies .study-card + .study-card { border-top: 1px solid var(--ink); }
+	.novosibirsk-studies h3 { font-size: clamp(1.35rem, 2.25vw, 2rem); }
+	.novosibirsk-studies .place { font-size: .57rem; }
+
+	.project-list { border-top: 1px solid var(--ink); }
+	.project-list details { border-bottom: 1px solid var(--line); }
+	.project-list summary { display: grid; grid-template-columns: 2.5rem 1fr 1.2rem; gap: 1rem; align-items: center; padding: 1.2rem .2rem; cursor: pointer; list-style: none; }
+	.project-list summary::-webkit-details-marker { display: none; }
+	.project-list summary > span { color: #185ee6; font: .62rem/1.5 var(--mono); }
+	.project-list summary h3 { margin: 0; font: 400 clamp(1.45rem, 2.4vw, 2.2rem)/1.05 var(--serif); }
+	.project-list summary i { font: 400 1.3rem/1 var(--sans); transition: transform .2s; }
+	.project-list details[open] summary i { transform: rotate(45deg); }
+	.project-detail { padding: 0 1.2rem 1.3rem 3.7rem; }
+	.project-detail p { max-width: 600px; margin: 0 0 1rem; color: var(--muted); font-size: .86rem; line-height: 1.6; }
+
+	.research-list { border-top: 1px solid var(--ink); }
+	.research-list details { border-bottom: 1px solid var(--line); }
+	.research-list summary { display: grid; grid-template-columns: 2.5rem 1fr 1.2rem; gap: 1rem; align-items: center; padding: 1.2rem .2rem; cursor: pointer; list-style: none; }
+	.research-list summary::-webkit-details-marker { display: none; }
+	.research-list summary > span:first-child { color: #185ee6; font: .62rem/1.5 var(--mono); }
+	.research-heading { display: grid; gap: .45rem; }
+	.research-heading h3 { max-width: 20ch; margin: 0; font: 400 clamp(1.35rem, 2.3vw, 2.1rem)/1.05 var(--serif); letter-spacing: -.03em; }
+	.research-heading small { color: var(--muted); font: 600 .55rem/1.45 var(--mono); letter-spacing: .03em; text-transform: uppercase; }
+	.research-list summary i { font: 400 1.3rem/1 var(--sans); transition: transform .2s; }
+	.research-list details[open] summary i { transform: rotate(45deg); }
+	.research-detail { padding: .15rem 1.2rem 1.5rem 3.7rem; }
+	.research-detail > p { color: var(--muted); font-size: .84rem; line-height: 1.6; }
+	.research-detail .authors { color: var(--ink); font: 600 .57rem/1.5 var(--mono); text-transform: uppercase; }
+	.paper-abstract { margin-top: 1rem; }
+	.paper-abstract > span { color: var(--muted); font: 650 .56rem/1.4 var(--mono); text-transform: uppercase; }
+	.paper-abstract p { margin: .45rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.65; }
+	.paper-abstract + .text-link { margin-top: 1.2rem; }
+	.conferences-section { min-height: auto; }
+	.conference-list { border-top: 1px solid var(--ink); }
+	.conference-list article { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; padding: 1.1rem .15rem; border-bottom: 1px solid var(--line); }
+	.conference-list article > span { color: #185ee6; font: 650 .58rem/1.5 var(--mono); text-transform: uppercase; }
+	.conference-list h3 { margin: 0; font: 400 clamp(1.15rem, 2vw, 1.6rem)/1.12 var(--serif); letter-spacing: -.02em; }
+	.conference-list article p { margin: .4rem 0 0; color: var(--muted); font-size: .7rem; line-height: 1.5; }
+	.conference-more > summary { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem .15rem; border-bottom: 1px solid var(--ink); cursor: pointer; list-style: none; font: 650 .58rem/1.5 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+	.conference-more > summary::-webkit-details-marker { display: none; }
+	.conference-more > summary i { font: 400 1.3rem/1 var(--sans); transition: transform .2s; }
+	.conference-more[open] > summary i { transform: rotate(45deg); }
+	@media (max-width: 1100px) {
+		.home-story { grid-template-columns: minmax(0, 1.15fr) minmax(360px, .75fr); gap: 2.5rem; }
+		.intro h1 { font-size: clamp(4.2rem, 8vw, 7rem); }
+	}
+
+	@media (max-width: 900px) {
+		.home-story { display: flex; width: 100%; max-width: 100%; flex-direction: column; overflow-x: clip; }
+		.story-content { display: contents; }
+		.stage-section { width: 100%; min-width: 0; }
+		.intro { order: 1; min-height: auto; padding-bottom: 5rem; }
+		.curve-rail { position: sticky; top: 62px; z-index: 30; order: 2; width: 100%; max-width: 100%; padding-block: 0; overflow: hidden; background: var(--paper); }
+		.curve-sticky { position: static; min-height: 0; padding-block: .5rem; }
+		#experience { order: 3; }
+		#education { order: 4; }
+		#projects { order: 5; }
+		#research { order: 6; }
+		#conferences { order: 7; }
+		#off-duty { order: 8; }
+		.stage-section { min-height: auto; }
+	}
+
+	@media (max-width: 600px) {
+		.intro h1 { font-size: clamp(3.35rem, 14.5vw, 4.6rem); }
+		.intro-about { grid-template-columns: 4rem minmax(0, 1fr); }
+		.intro-photo { width: 4rem; height: 4rem; }
+		.role { font-size: 1.48rem; }
+		.stage-head h2 { font-size: clamp(3.5rem, 18vw, 5.5rem); }
+		.curve-rail { top: 57px; }
+		.timeline summary { grid-template-columns: 1fr 1.2rem; gap: .65rem; }
+		.job-when, .job-heading { grid-column: 1; }
+		.timeline summary i { grid-column: 2; grid-row: 1 / 3; }
+		.job-detail { padding-left: .3rem; }
+		.phd-study, .paris-study { min-height: auto; }
+		.earlier-studies { grid-template-columns: 1fr; min-height: auto; }
+		.paris-study { border-right: 0; border-bottom: 1px solid var(--ink); }
+		.novosibirsk-studies { grid-template-columns: 1fr; }
+		.novosibirsk-studies .study-card { min-height: auto; }
+		.novosibirsk-studies .study-card + .study-card { border-top: 1px solid var(--ink); border-left: 0; }
+		.project-detail { padding-left: .3rem; padding-right: .3rem; }
+		.research-detail { padding-left: .3rem; padding-right: .3rem; }
+	}
+</style>

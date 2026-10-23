@@ -1,0 +1,89 @@
+---
+interface Props {
+	variant: 'esg' | 'portfolio' | 'resampling';
+}
+
+const { variant } = Astro.props;
+---
+
+<figure class={`research-visual ${variant}`} data-research-visual>
+	{variant === 'esg' ? (
+		<>
+			<svg viewBox="0 0 520 230" role="img" aria-label="An inverted-U showing how the market response to ESG news changes over time">
+				<path class="mini-axis" d="M42 22 V194 H498" />
+				<path class="zero-line" d="M42 150 H498" />
+				<path class="result-line" pathLength="1" d="M50 169 C140 154 176 58 270 55 C367 52 395 144 488 164" />
+				<circle class="result-dot" cx="270" cy="55" r="6" />
+				<text x="48" y="215">2000</text><text x="456" y="215">2024</text>
+				<text class="mini-label" x="256" y="34">STRONGEST RESPONSE</text>
+			</svg>
+			<figcaption>Market response over time</figcaption>
+		</>
+	) : variant === 'portfolio' ? (
+		<>
+			<svg viewBox="0 0 520 230" role="img" aria-label="Media ESG signals being sorted into two illustrative portfolios">
+				<g class="signal-dots">
+					<circle cx="70" cy="70" r="8" /><circle cx="112" cy="105" r="6" /><circle cx="72" cy="145" r="5" /><circle cx="128" cy="164" r="8" />
+				</g>
+				<path class="signal-path positive-signal" pathLength="1" d="M142 94 C210 94 224 61 292 61 H461" />
+				<path class="signal-path negative-signal" pathLength="1" d="M142 139 C210 139 224 170 292 170 H461" />
+				<rect class="portfolio-box positive-box" x="322" y="35" width="150" height="52" rx="3" />
+				<rect class="portfolio-box negative-box" x="322" y="144" width="150" height="52" rx="3" />
+				<text class="box-label" x="397" y="65">POSITIVE SIGNAL</text>
+				<text class="box-label" x="397" y="174">NEGATIVE SIGNAL</text>
+				<text x="48" y="215">MEDIA NEWS</text><text x="354" y="215">PORTFOLIO SORT</text>
+			</svg>
+			<figcaption>From media signals to portfolio groups</figcaption>
+		</>
+	) : (
+		<>
+			<svg viewBox="0 0 520 230" role="img" aria-label="Repeated train and test samples changing model rankings">
+				<path class="mini-axis" d="M42 22 V194 H498" />
+				<g class="rank-lines">
+					<path pathLength="1" d="M62 64 C145 64 170 132 250 132 S365 76 470 76" />
+					<path pathLength="1" d="M62 111 C145 111 174 72 250 72 S375 142 470 142" />
+					<path pathLength="1" d="M62 153 C145 153 174 101 250 101 S380 112 470 112" />
+				</g>
+				<text x="52" y="215">SAMPLE 1</text><text x="420" y="215">SAMPLE N</text>
+				<text class="mini-label" x="274" y="34">RANKINGS MOVE</text>
+			</svg>
+			<figcaption>Accuracy across repeated samples</figcaption>
+		</>
+	)}
+</figure>
+
+<style>
+	.research-visual { margin: 0 0 1.1rem; padding: 1rem 1rem .7rem; color: white; border: 1px solid var(--ink); background: var(--ink); }
+	.research-visual svg { display: block; width: 100%; height: auto; overflow: visible; }
+	.mini-axis { fill: none; stroke: rgba(255,255,255,.34); stroke-width: 1; }
+	.zero-line { fill: none; stroke: rgba(255,255,255,.22); stroke-width: 1; stroke-dasharray: 4 5; }
+	.research-visual text { fill: rgba(255,255,255,.44); font: 650 9px var(--mono); letter-spacing: .04em; }
+	.research-visual .mini-label { fill: rgba(255,255,255,.68); text-anchor: middle; }
+	.result-line, .rank-lines path { fill: none; stroke: #82aaff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+	.result-dot { fill: #ff6b45; opacity: 0; transform-origin: 270px 55px; }
+	.rank-lines path:nth-child(2) { stroke: #ff7b5c; }
+	.rank-lines path:nth-child(3) { stroke: #78cbb9; }
+	:global(details[open]) .result-line, :global(details[open]) .rank-lines path { animation: reveal-line 1.35s .1s cubic-bezier(.2,.75,.2,1) forwards; }
+	:global(details[open]) .rank-lines path:nth-child(2) { animation-delay: .28s; }
+	:global(details[open]) .rank-lines path:nth-child(3) { animation-delay: .45s; }
+	:global(details[open]) .result-dot { animation: pop-dot .35s 1.2s ease-out forwards; }
+	.signal-dots circle { fill: #82aaff; opacity: .22; }
+	.signal-dots circle:nth-child(even) { fill: #ff7b5c; }
+	.signal-path { fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+	.positive-signal { stroke: #82aaff; }
+	.negative-signal { stroke: #ff7b5c; }
+	.portfolio-box { fill: rgba(255,255,255,.035); stroke-width: 1.5; }
+	.positive-box { stroke: #82aaff; }
+	.negative-box { stroke: #ff7b5c; }
+	.research-visual .box-label { fill: rgba(255,255,255,.72); text-anchor: middle; }
+	:global(details[open]) .signal-path { animation: reveal-line 1.25s .15s cubic-bezier(.2,.75,.2,1) forwards; }
+	:global(details[open]) .signal-dots circle { animation: signal-pulse 1.8s ease-in-out infinite alternate; }
+	.research-visual figcaption { margin-top: .45rem; color: rgba(255,255,255,.48); font: 650 .53rem/1.4 var(--mono); text-transform: uppercase; }
+	@keyframes reveal-line { to { stroke-dashoffset: 0; } }
+	@keyframes pop-dot { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+	@keyframes signal-pulse { to { opacity: .95; } }
+	@media (prefers-reduced-motion: reduce) {
+		.result-line, .rank-lines path, .signal-path { stroke-dashoffset: 0; }
+		.result-dot { opacity: 1; }
+	}
+</style>

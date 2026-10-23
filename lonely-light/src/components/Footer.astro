@@ -1,0 +1,22 @@
+---
+import { profile } from '../data/site';
+---
+
+<footer class="site-footer">
+	<div class="footer-intro">
+		<p class="eyebrow">Vladislav Pyzhov</p>
+		<p class="footer-title">Machine learning, data science and finance research.</p>
+	</div>
+	<div class="footer-side">
+		<nav class="footer-links" aria-label="Footer links">
+			<a href={`mailto:${profile.email}`}>Email</a>
+			<a href="/Vladislav-Pyzhov-CV.pdf" target="_blank">CV</a>
+			<a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+			<a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+		</nav>
+		<div class="footer-meta">
+			<p>Sydney, Australia</p>
+			<p>© {new Date().getFullYear()} Vladislav Pyzhov</p>
+		</div>
+	</div>
+</footer>

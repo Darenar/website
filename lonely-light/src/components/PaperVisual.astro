@@ -1,0 +1,153 @@
+---
+interface FigureItem {
+	src: string;
+	alt: string;
+	caption: string;
+}
+
+interface PaperVisualData {
+	visual: string;
+	figures: FigureItem[];
+	industryFigure?: FigureItem;
+}
+
+interface Props {
+	paper: PaperVisualData;
+}
+
+const { paper } = Astro.props;
+---
+
+{paper.visual === 'return-regressions' && (
+	<div class="return-visual" aria-label="Media ESG score-change formulas and return regression results">
+		<div class="formula-panel">
+			<p class="visual-label">Signal</p>
+			<p class="formula">ΔScore<sub>i,t</sub> = Score<sub>i,t</sub> − Score<sub>i,t−1</sub></p>
+			<p class="visual-label">Current-month return specification</p>
+			<p class="formula regression">
+				R<sub>i,t</sub> = α + βΔScore<sub>i,t</sub> + γ′X<sub>i,t−1</sub> + λBuzz<sub>i,t</sub> + μ<sub>t</sub> + η<sub>Iᵢ</sub> + ε<sub>i,t</sub>
+			</p>
+			<div class="variable-key">
+				<p><strong>X<sub>i,t−1</sub></strong> firm, stock and analyst controls</p>
+				<p><strong>Buzz<sub>i,t</sub></strong> media-attention control</p>
+				<p><strong>μ<sub>t</sub></strong> month-year fixed effects</p>
+				<p><strong>η<sub>Iᵢ</sub></strong> industry fixed effects</p>
+			</div>
+		</div>
+		<div class="results-panel">
+			<p class="visual-label">Monthly media ESG score revisions and same-month returns</p>
+			<div class="table-scroll">
+				<table class="paper-table">
+					<thead>
+						<tr><th></th><th colspan="5">Return<sub>t</sub></th></tr>
+						<tr><th></th><th>(1)</th><th>(2)</th><th>(3)</th><th>(4)</th><th>(5)</th></tr>
+					</thead>
+					<tbody>
+						<tr><th>Δ ESG<sub>t</sub></th><td class="estimate">0.1004***</td><td></td><td></td><td></td><td></td></tr>
+						<tr class="se"><th></th><td>(0.0059)</td><td></td><td></td><td></td><td></td></tr>
+						<tr><th>Δ Environmental<sub>t</sub></th><td></td><td class="estimate">0.0132***</td><td></td><td></td><td class="estimate">0.0061**</td></tr>
+						<tr class="se"><th></th><td></td><td>(0.0029)</td><td></td><td></td><td>(0.0028)</td></tr>
+						<tr><th>Δ Social<sub>t</sub></th><td></td><td></td><td class="estimate">0.0903***</td><td></td><td class="estimate">0.0859***</td></tr>
+						<tr class="se"><th></th><td></td><td></td><td>(0.0052)</td><td></td><td>(0.0052)</td></tr>
+						<tr><th>Δ Governance<sub>t</sub></th><td></td><td></td><td></td><td class="estimate">0.0308***</td><td class="estimate">0.0239***</td></tr>
+						<tr class="se"><th></th><td></td><td></td><td></td><td>(0.0027)</td><td>(0.0027)</td></tr>
+						<tr class="stat"><th>Observations</th><td>407,930</td><td>407,930</td><td>407,930</td><td>407,930</td><td>407,930</td></tr>
+						<tr class="stat"><th>R²</th><td>0.181</td><td>0.179</td><td>0.181</td><td>0.180</td><td>0.182</td></tr>
+						<tr class="control"><th>Buzz control</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+						<tr class="control"><th>Firm controls</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+						<tr class="control"><th>Month and industry FE</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="table-note">Returns are in decimal units and scores are divided by 100. Standard errors are in parentheses. ***, ** and * denote significance at the 1%, 5% and 10% levels.</p>
+		</div>
+	</div>
+)}
+
+{paper.visual === 'greenness-classification' && (
+	<div class="greenness-visual" aria-label="Lambda greenness definition and alternative firm classifications">
+		<div class="lambda-panel">
+			<p class="visual-label">Defining λ-greenness</p>
+			<p class="formula lambda-formula">G<sub>j,i,t</sub> = (S<sub>j,i,t</sub> − λ) · W<sub>j,i,t</sub></p>
+			<div class="lambda-key">
+				<p><strong>S</strong> environmental performance score</p>
+				<p><strong>W</strong> environmental materiality weight</p>
+				<p><strong>λ</strong> how strongly materiality is penalized: 1 is full penalty, 0.5 is balanced, and 0 removes the penalty</p>
+			</div>
+		</div>
+		{paper.industryFigure && (
+			<figure class="industry-figure">
+				<img src={paper.industryFigure.src} alt={paper.industryFigure.alt} loading="lazy" />
+				<figcaption>{paper.industryFigure.caption}</figcaption>
+			</figure>
+		)}
+		<p class="classification-label">The dots below are the same firms, reclassified as green, neutral or brown under three values of λ.</p>
+		<div class="paper-gallery is-triple">
+			{paper.figures.map((figure) => (
+				<figure>
+					<img src={figure.src} alt={figure.alt} loading="lazy" />
+					<figcaption>{figure.caption}</figcaption>
+				</figure>
+			))}
+		</div>
+	</div>
+)}
+
+{paper.visual === 'figures' && (
+	<div class:list={['paper-gallery', { 'is-single': paper.figures.length === 1, 'is-triple': paper.figures.length === 3 }]}>
+		{paper.figures.map((figure) => (
+			<figure>
+				<img src={figure.src} alt={figure.alt} loading="lazy" />
+				<figcaption>{figure.caption}</figcaption>
+			</figure>
+		))}
+	</div>
+)}
+
+<style>
+	.paper-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin: .35rem 0 1.3rem; }
+	.paper-gallery.is-single { grid-template-columns: 1fr; }
+	.paper-gallery.is-triple figure:last-child { grid-column: 1 / -1; }
+	.paper-gallery figure { min-width: 0; margin: 0; border: 1px solid var(--line); background: #fff; }
+	.paper-gallery img { display: block; width: 100%; height: auto; max-height: 28rem; object-fit: contain; }
+	.paper-gallery.is-triple figure:last-child img { max-height: 34rem; }
+	.paper-gallery figcaption { min-height: 3rem; padding: .65rem .8rem; border-top: 1px solid var(--line); color: var(--muted); font: .54rem/1.45 var(--mono); text-transform: uppercase; }
+	.greenness-visual { margin: .35rem 0 1.3rem; }
+	.lambda-panel { padding: clamp(1rem, 2.4vw, 1.7rem); border: 1px solid var(--ink); background: #f4f7ff; }
+	.lambda-formula { margin-bottom: 1rem; }
+	.lambda-key, .variable-key { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem 1.5rem; }
+	.lambda-key p, .variable-key p { margin: 0; color: var(--muted); font-size: .65rem; line-height: 1.5; }
+	.lambda-key strong, .variable-key strong { color: var(--ink); font-family: var(--mono); }
+	.industry-figure { margin: .8rem 0; border: 1px solid var(--line); background: #fff; }
+	.industry-figure img { width: 100%; max-height: 31rem; object-fit: contain; }
+	.industry-figure figcaption { padding: .65rem .8rem; border-top: 1px solid var(--line); color: var(--muted); font: .54rem/1.45 var(--mono); text-transform: uppercase; }
+	.classification-label { margin: 1.2rem 0 .65rem; color: var(--muted); font-size: .72rem; line-height: 1.55; }
+	.return-visual { margin: .35rem 0 1.3rem; border: 1px solid var(--ink); background: #fff; }
+	.formula-panel { padding: clamp(1rem, 2.4vw, 1.7rem); background: #f4f7ff; }
+	.visual-label { margin: 0 0 .55rem; color: var(--muted); font: 650 .55rem/1.4 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+	.formula { margin: 0 0 1.35rem; color: #164ba8; font: 400 clamp(1.25rem, 2.7vw, 2rem)/1.25 var(--serif); letter-spacing: -.025em; }
+	.formula.regression { overflow-x: auto; padding-bottom: .2rem; color: var(--ink); font-size: clamp(.96rem, 1.75vw, 1.3rem); white-space: nowrap; }
+	.formula sub { font-size: .58em; }
+	.results-panel { padding: clamp(1rem, 2.4vw, 1.7rem); border-top: 1px solid var(--ink); }
+	.table-scroll { overflow-x: auto; }
+	table { width: 100%; min-width: 39rem; border-collapse: collapse; font: .61rem/1.35 var(--mono); }
+	th, td { padding: .48rem .38rem; text-align: right; white-space: nowrap; }
+	th:first-child { text-align: left; }
+	thead { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+	thead th { color: var(--muted); font-size: .55rem; letter-spacing: .04em; text-transform: uppercase; }
+	tbody th { font-weight: 600; }
+	tbody .estimate { color: #185ee6; font-weight: 700; }
+	.se th, .se td { padding-top: 0; color: var(--muted); }
+	.se + tr th, .se + tr td { padding-top: .75rem; }
+	.se + .stat th, .se + .stat td { padding-top: .75rem; border-top: 1px solid var(--ink); }
+	.stat + .control th, .stat + .control td { padding-top: .75rem; border-top: 1px solid var(--line); }
+	.control:last-child th, .control:last-child td { padding-bottom: .75rem; border-bottom: 1px solid var(--ink); }
+	.table-note { margin: .55rem 0 0; color: var(--muted); font-size: .63rem; line-height: 1.5; }
+	@media (max-width: 620px) {
+		.paper-gallery { grid-template-columns: 1fr; }
+		.paper-gallery.is-triple figure:last-child { grid-column: auto; }
+		.paper-gallery img, .paper-gallery.is-triple figure:last-child img { max-height: 26rem; }
+		.formula.regression { font-size: .92rem; }
+		.lambda-key, .variable-key { grid-template-columns: 1fr; }
+	}
+</style>

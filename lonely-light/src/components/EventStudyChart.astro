@@ -1,0 +1,63 @@
+<figure class="event-study-chart" aria-labelledby="event-study-caption">
+	<div class="chart-heading">
+		<strong>Cumulative abnormal return</strong>
+		<span>Joint mean CAR · 95% confidence limits</span>
+	</div>
+	<svg viewBox="0 0 620 330" role="img" aria-label="Cumulative abnormal returns for increase and decrease events, remade from the Easy Event Study example output">
+		<g class="grid" aria-hidden="true">
+			<path d="M68 38 V270 H584" />
+			<path d="M68 70 H584 M68 129 H584 M68 188 H584 M68 247 H584" />
+			<path class="event-line" d="M326 38 V270" />
+		</g>
+		<g class="ticks" aria-hidden="true">
+			<text x="35" y="74">20%</text><text x="35" y="133">10%</text><text x="42" y="192">0%</text><text x="29" y="251">−10%</text>
+			<text x="65" y="294">−10</text><text x="194" y="294">−5</text><text x="322" y="294">0</text><text x="451" y="294">5</text><text x="574" y="294">10</text>
+			<text class="event-label" x="326" y="25" text-anchor="middle">EVENT</text>
+			<text class="axis-label" x="326" y="319" text-anchor="middle">DAYS RELATIVE TO EVENT</text>
+			<text class="axis-label" transform="translate(13 154) rotate(-90)" text-anchor="middle">RETURN</text>
+		</g>
+
+		<path class="band increase-band" d="M68 193 C130 191 194 193 255 189 L313 188 L326 57 C392 57 461 55 584 58 L584 91 C467 88 391 90 326 90 L313 202 C242 202 154 203 68 205 Z" />
+		<path class="band decrease-band" d="M68 185 C142 187 223 185 313 188 L326 231 C403 231 489 232 584 231 L584 263 C488 263 401 262 326 262 L313 200 C220 199 142 200 68 198 Z" />
+		<path class="confidence increase-confidence" d="M68 193 C130 191 194 193 255 189 L313 188 L326 57 C392 57 461 55 584 58 M68 205 C154 203 242 202 313 202 L326 90 C391 90 467 88 584 91" />
+		<path class="confidence decrease-confidence" d="M68 185 C142 187 223 185 313 188 L326 231 C403 231 489 232 584 231 M68 198 C142 200 220 199 313 200 L326 262 C401 262 488 263 584 263" />
+		<path class="car-path increase-path" pathLength="1" d="M68 199 C132 196 194 198 255 195 L313 195 L326 74 C395 74 471 72 584 75" />
+		<path class="car-path decrease-path" pathLength="1" d="M68 192 C140 193 222 192 313 194 L326 246 C407 246 493 247 584 247" />
+	</svg>
+	<figcaption id="event-study-caption">
+		<span><i class="increase-key"></i>Increase · 48 events</span>
+		<span><i class="decrease-key"></i>Decrease · 49 events</span>
+	</figcaption>
+</figure>
+
+<style>
+	.event-study-chart { margin: 1.35rem 0 1.1rem; padding: 1rem 1rem .85rem; border: 1px solid var(--line); background: #fbfcff; }
+	.chart-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; padding: .15rem .15rem .55rem; }
+	.chart-heading strong { font: 400 clamp(1.05rem, 2vw, 1.35rem)/1.2 var(--serif); }
+	.chart-heading span { color: var(--muted); font: 600 .52rem/1.4 var(--mono); letter-spacing: .03em; text-align: right; text-transform: uppercase; }
+	.event-study-chart svg { display: block; width: 100%; height: auto; }
+	.grid path { fill: none; stroke: rgba(17,19,18,.13); stroke-width: 1; vector-effect: non-scaling-stroke; }
+	.grid path:first-child { stroke: rgba(17,19,18,.34); }
+	.grid .event-line { stroke: rgba(17,19,18,.5); stroke-dasharray: 4 5; }
+	.ticks text { fill: #727672; font: 600 10px var(--mono); letter-spacing: .03em; }
+	.ticks .event-label { fill: #333735; font-size: 9px; }
+	.ticks .axis-label { font-size: 9px; letter-spacing: .07em; }
+	.band { opacity: .1; }
+	.increase-band { fill: #185ee6; }
+	.decrease-band { fill: #1c9a76; }
+	.confidence { fill: none; stroke-width: 1.5; stroke-dasharray: 6 5; opacity: .56; vector-effect: non-scaling-stroke; }
+	.increase-confidence { stroke: #185ee6; }
+	.decrease-confidence { stroke: #178363; }
+	.car-path { fill: none; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; vector-effect: non-scaling-stroke; }
+	.increase-path { stroke: #185ee6; }
+	.decrease-path { stroke: #178363; }
+	:global(details[open]) .car-path { animation: draw-car 1.45s .08s cubic-bezier(.2,.75,.2,1) forwards; }
+	.event-study-chart figcaption { display: flex; flex-wrap: wrap; gap: .7rem 1.1rem; align-items: center; margin-top: .25rem; color: var(--muted); font: 650 .55rem/1.4 var(--mono); letter-spacing: .02em; text-transform: uppercase; }
+	.event-study-chart figcaption span { display: inline-flex; gap: .4rem; align-items: center; }
+	.event-study-chart figcaption i { width: 1rem; height: 2px; }
+	.increase-key { background: #185ee6; }
+	.decrease-key { background: #178363; }
+	@keyframes draw-car { to { stroke-dashoffset: 0; } }
+	@media (max-width: 560px) { .chart-heading { display: grid; } .chart-heading span { text-align: left; } }
+	@media (prefers-reduced-motion: reduce) { .car-path, .confidence { stroke-dashoffset: 0; } }
+</style>

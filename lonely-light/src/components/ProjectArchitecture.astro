@@ -1,0 +1,89 @@
+---
+interface Props {
+	variant: 'gan-sdf' | 'ap-trees';
+}
+
+const { variant } = Astro.props;
+---
+
+<figure class={`project-architecture ${variant}`}>
+	{variant === 'gan-sdf' ? (
+		<>
+			<svg viewBox="0 0 700 340" role="img" aria-label="The adversarial neural-network architecture used in Deep Learning in Asset Pricing">
+				<defs><marker id="gan-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" /></marker></defs>
+				<text class="branch-title sdf-text" x="32" y="32">SDF NETWORK · MINIMISE</text>
+				<text class="branch-title adversary-text" x="32" y="202">CONDITIONAL NETWORK · MAXIMISE</text>
+				<g class="node"><rect x="30" y="52" width="128" height="66" rx="4"/><text x="94" y="78">MACRO HISTORY</text><text class="sub" x="94" y="96">state variables</text></g>
+				<g class="node accent-green"><rect x="196" y="52" width="128" height="66" rx="4"/><text x="260" y="78">STATE LSTM</text><text class="sub" x="260" y="96">hidden state</text></g>
+				<g class="node"><rect x="362" y="52" width="128" height="66" rx="4"/><text x="426" y="78">SDF WEIGHTS</text><text class="sub" x="426" y="96">firm features</text></g>
+				<g class="node loss-node"><rect x="542" y="118" width="126" height="104" rx="52"/><text x="605" y="158">PRICING</text><text x="605" y="177">ERROR</text><text class="sub" x="605" y="197">no-arbitrage loss</text></g>
+
+				<g class="node"><rect x="30" y="222" width="128" height="66" rx="4"/><text x="94" y="248">RETURNS</text><text class="sub" x="94" y="266">candidate assets</text></g>
+				<g class="node accent-orange"><rect x="196" y="222" width="128" height="66" rx="4"/><text x="260" y="248">MOMENT LSTM</text><text class="sub" x="260" y="266">test conditions</text></g>
+				<g class="node"><rect x="362" y="222" width="128" height="66" rx="4"/><text x="426" y="248">TEST ASSETS</text><text class="sub" x="426" y="266">hardest moments</text></g>
+
+				<g class="connectors">
+					<path pathLength="1" d="M158 85 H196 M324 85 H362 M490 85 H520 Q536 85 545 125" />
+					<path pathLength="1" d="M158 255 H196 M324 255 H362 M490 255 H520 Q536 255 545 215" />
+					<path class="feedback" pathLength="1" d="M606 118 C606 46 525 24 456 36" />
+					<path class="feedback" pathLength="1" d="M606 222 C606 304 527 320 456 303" />
+				</g>
+				<text class="loop-label" x="530" y="29">ALTERNATING UPDATES</text>
+			</svg>
+			<figcaption>Deep Learning in Asset Pricing: one network prices assets; the other finds the moments it prices worst.</figcaption>
+		</>
+	) : (
+		<>
+			<svg viewBox="0 0 700 340" role="img" aria-label="Asset Pricing Trees recursively splitting stocks and pruning the full tree to a compact portfolio basis">
+				<defs><marker id="tree-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10Z" /></marker></defs>
+				<text class="branch-title" x="28" y="30">RECURSIVE CHARACTERISTIC SPLITS</text>
+				<text class="branch-title" x="478" y="30">PRUNED PORTFOLIOS</text>
+				<g class="tree-lines full-tree">
+					<path pathLength="1" d="M190 68 L115 132 M190 68 L265 132 M115 132 L70 207 M115 132 L155 207 M265 132 L230 207 M265 132 L310 207 M70 207 L46 278 M70 207 L88 278 M155 207 L138 278 M155 207 L174 278 M230 207 L214 278 M230 207 L248 278 M310 207 L292 278 M310 207 L330 278" />
+				</g>
+				<g class="tree-nodes">
+					<g class="node retained"><circle cx="190" cy="68" r="27"/><text x="190" y="72">SIZE</text></g>
+					<g class="node"><circle cx="115" cy="132" r="24"/><text x="115" y="136">VALUE</text></g><g class="node retained"><circle cx="265" cy="132" r="24"/><text x="265" y="136">SIZE</text></g>
+					<circle cx="70" cy="207" r="9"/><circle cx="155" cy="207" r="9"/><circle class="selected" cx="230" cy="207" r="11"/><circle cx="310" cy="207" r="9"/>
+					<circle cx="46" cy="278" r="6"/><circle cx="88" cy="278" r="6"/><circle class="selected warm" cx="138" cy="278" r="8"/><circle cx="174" cy="278" r="6"/><circle cx="214" cy="278" r="6"/><circle cx="248" cy="278" r="6"/><circle cx="292" cy="278" r="6"/><circle cx="330" cy="278" r="6"/>
+				</g>
+				<path class="prune-arrow" pathLength="1" d="M365 169 H437" />
+				<text class="prune-label" x="401" y="153">PRUNE</text>
+				<g class="tree-lines pruned-tree"><path pathLength="1" d="M565 83 L510 164 M565 83 L620 164 M510 164 L480 249 M510 164 L540 249 M620 164 L590 249 M620 164 L650 249" /></g>
+				<g class="tree-nodes">
+					<g class="node retained"><circle cx="565" cy="83" r="27"/><text x="565" y="87">SIZE</text></g>
+					<g class="node"><circle cx="510" cy="164" r="23"/><text x="510" y="168">VALUE</text></g><g class="node retained"><circle cx="620" cy="164" r="23"/><text x="620" y="168">SIZE</text></g>
+					<circle cx="480" cy="249" r="7"/><circle class="selected warm" cx="540" cy="249" r="10"/><circle class="selected" cx="590" cy="249" r="10"/><circle cx="650" cy="249" r="7"/>
+				</g>
+			</svg>
+			<figcaption>Forest through the Trees: grow portfolios from characteristic splits, then keep a small basis that spans the pricing kernel.</figcaption>
+		</>
+	)}
+</figure>
+
+<style>
+	.project-architecture { margin: 1.35rem 0 1.1rem; padding: 1rem; border: 1px solid var(--line); background: #fbfcff; }
+	.project-architecture svg { display: block; width: 100%; height: auto; }
+	.branch-title { fill: #696e6a; font: 650 10px var(--mono); letter-spacing: .05em; }
+	.sdf-text { fill: #167c62; }
+	.adversary-text { fill: #c45b33; }
+	.node rect, .node circle { fill: #fff; stroke: #aeb3b0; stroke-width: 1.3; vector-effect: non-scaling-stroke; }
+	.node text { fill: #292d2a; font: 650 10px var(--mono); text-anchor: middle; }
+	.node .sub { fill: #7d827e; font-size: 8px; font-weight: 500; }
+	.accent-green rect, .loss-node rect, .retained circle { stroke: #168768; stroke-width: 2; }
+	.accent-orange rect { stroke: #d4673f; stroke-width: 2; }
+	.connectors path, .tree-lines path, .prune-arrow { fill: none; stroke: #767b77; stroke-width: 1.6; marker-end: url(#gan-arrow); stroke-dasharray: 1; stroke-dashoffset: 1; vector-effect: non-scaling-stroke; }
+	.feedback { stroke-dasharray: 4 4 !important; opacity: .65; }
+	.loop-label, .prune-label { fill: #898d89; font: 650 8px var(--mono); letter-spacing: .05em; text-anchor: middle; }
+	.tree-lines path { marker-end: none; stroke: #9fa4a0; }
+	.tree-nodes > circle { fill: #f8faf9; stroke: #9fa4a0; stroke-width: 1.2; }
+	.tree-nodes .selected { fill: #185ee6; stroke: #185ee6; }
+	.tree-nodes .warm { fill: #d4673f; stroke: #d4673f; }
+	.prune-arrow { stroke: #185ee6; stroke-width: 2.2; marker-end: url(#tree-arrow); }
+	.project-architecture figcaption { margin: .4rem 0 0; color: var(--muted); font: 600 .57rem/1.45 var(--mono); letter-spacing: .02em; text-transform: uppercase; }
+	:global(details[open]) .connectors path, :global(details[open]) .tree-lines path, :global(details[open]) .prune-arrow { animation: architecture-draw 1.1s .12s ease-out forwards; }
+	:global(details[open]) .tree-nodes .selected { animation: node-pulse 1.8s 1s ease-in-out infinite alternate; }
+	@keyframes architecture-draw { to { stroke-dashoffset: 0; } }
+	@keyframes node-pulse { to { filter: drop-shadow(0 0 6px rgba(24,94,230,.5)); } }
+	@media (prefers-reduced-motion: reduce) { .connectors path, .tree-lines path, .prune-arrow { stroke-dashoffset: 0; } }
+</style>

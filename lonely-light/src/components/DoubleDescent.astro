@@ -1,0 +1,187 @@
+<div class="double-descent" data-double-descent data-active="intro">
+	<div class="plot-head">
+		<p>Getting to know Vlad Pyzhov</p>
+	</div>
+
+	<svg viewBox="0 0 780 570" role="img" aria-labelledby="dd-title dd-description">
+		<title id="dd-title">A double-descent curve used as website navigation</title>
+		<desc id="dd-description">A knowledge-gap curve moves through experience, education, projects and research. Selecting Beyond reveals its second descent towards off-duty life.</desc>
+		<defs>
+			<linearGradient id="curve-area" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stop-color="#185ee6" stop-opacity=".10" />
+				<stop offset="1" stop-color="#185ee6" stop-opacity="0" />
+			</linearGradient>
+			<linearGradient id="beyond-gradient" x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0" stop-color="#ff6b45" />
+				<stop offset="1" stop-color="#e74ba5" />
+			</linearGradient>
+		</defs>
+
+		<path class="plot-surface" d="M70 60 H744 V510 H70 Z" />
+		<g class="axes" aria-hidden="true">
+			<path d="M74 54 V510 H748" />
+			<path class="axis-arrow y-arrow" d="M68 65 L74 54 L80 65" />
+			<path class="axis-arrow x-arrow" d="M737 504 L748 510 L737 516" />
+		</g>
+		<text class="axis-title y-title" transform="translate(28 284) rotate(-90)" text-anchor="middle">KNOWLEDGE GAP</text>
+		<text class="axis-title x-title" x="411" y="551">COMPLEXITY</text>
+
+		<path class="curve-area" d="M86 138 C109 164 126 211 145 245 C171 295 205 351 240 375 C275 408 302 439 340 445 C390 442 421 289 490 150 L490 510 L86 510 Z" />
+		<path class="training-curve" d="M86 270 C165 410 270 500 722 505" />
+		<path class="test-base" d="M86 138 C109 164 126 211 145 245 C171 295 205 351 240 375 C275 408 302 439 340 445 C390 442 421 289 490 150" />
+		<path class="test-progress" data-test-progress pathLength="1" d="M86 138 C109 164 126 211 145 245 C171 295 205 351 240 375 C275 408 302 439 340 445 C390 442 421 289 490 150" />
+		<path class="beyond-curve" pathLength="1" d="M490 150 C535 112 558 196 582 305 C610 420 655 480 700 475" />
+		<text class="curve-caption testing-caption" x="92" y="122">TESTING</text>
+		<text class="curve-caption training-caption" x="618" y="493">TRAINING</text>
+
+		<g class="nav-points">
+			<a href="#experience" data-plot-point="experience" data-index="1">
+				<circle cx="145" cy="245" r="10" /><text x="162" y="217">Experience</text><text class="point-number" x="162" y="236">01</text>
+			</a>
+			<a href="#education" data-plot-point="education" data-index="2">
+				<circle cx="240" cy="375" r="10" /><text x="257" y="347">Education</text><text class="point-number" x="257" y="366">02</text>
+			</a>
+			<a href="#projects" data-plot-point="projects" data-index="3">
+				<circle cx="340" cy="445" r="11" /><text x="360" y="467">Projects</text><text class="point-number" x="448" y="467">03</text>
+			</a>
+			<a href="#research" data-plot-point="research" data-index="4">
+				<circle cx="490" cy="150" r="10" /><text x="433" y="124">Research</text><text class="point-number" x="433" y="143">04</text>
+			</a>
+			<a class="beyond-point" href="#off-duty" data-plot-point="off-duty" data-index="5" data-reveal-point>
+				<circle class="beyond-ring" cx="700" cy="475" r="27" />
+				<circle cx="700" cy="475" r="12" />
+				<text x="610" y="365">Beyond →</text><text class="point-number" x="610" y="386">05 · OFF DUTY</text>
+			</a>
+		</g>
+	</svg>
+</div>
+
+<script>
+	const plots = document.querySelectorAll('[data-double-descent]');
+	const sections = [...document.querySelectorAll('[data-curve-stage]')];
+	const stageOrder = ['intro', 'experience', 'education', 'projects', 'research', 'off-duty'];
+	const progress = { intro: 0.045, experience: 0.21, education: 0.43, projects: 0.61, research: 1, 'off-duty': 1 };
+	let activeStage = 'intro';
+	let revealInTransit = false;
+	let scrollFrame = 0;
+
+	function updatePlots(stage) {
+		activeStage = stage;
+		const currentIndex = stageOrder.indexOf(stage);
+		plots.forEach((plot) => {
+			plot.setAttribute('data-active', stage);
+			plot.classList.toggle('is-compact', stage !== 'intro');
+			const beyondRevealed = stage === 'off-duty' || revealInTransit;
+			plot.classList.toggle('beyond-revealed', beyondRevealed);
+			const path = plot.querySelector('[data-test-progress]');
+			if (path instanceof SVGPathElement) path.style.strokeDashoffset = String(1 - progress[stage]);
+			plot.querySelectorAll('[data-plot-point]').forEach((point) => {
+				const index = Number(point.getAttribute('data-index'));
+				point.classList.toggle('visited', index <= currentIndex);
+				point.classList.toggle('current', point.getAttribute('data-plot-point') === stage);
+			});
+		});
+	}
+
+	function revealBeyond() {
+		revealInTransit = true;
+		updatePlots('off-duty');
+		window.setTimeout(() => document.querySelector('#off-duty')?.scrollIntoView({ behavior: 'smooth' }), 420);
+	}
+
+	plots.forEach((plot) => {
+		plot.querySelector('[data-reveal-point]')?.addEventListener('click', (event) => {
+			event.preventDefault();
+			revealBeyond();
+		});
+	});
+
+	function stageAtScrollMarker() {
+		const marker = window.innerHeight * .38;
+		let selected = sections[0];
+		for (const section of sections) {
+			if (section.getBoundingClientRect().top <= marker) selected = section;
+			else break;
+		}
+		return selected?.getAttribute('data-curve-stage') || 'intro';
+	}
+
+	function syncPlotToScroll() {
+		scrollFrame = 0;
+		const nextStage = stageAtScrollMarker();
+		if (nextStage === 'off-duty') {
+			revealInTransit = false;
+			updatePlots(nextStage);
+		} else if (nextStage !== activeStage) {
+			updatePlots(nextStage);
+		}
+	}
+
+	function queuePlotSync() {
+		if (scrollFrame) return;
+		scrollFrame = window.requestAnimationFrame(syncPlotToScroll);
+	}
+
+	window.addEventListener('scroll', queuePlotSync, { passive: true });
+	window.addEventListener('resize', queuePlotSync);
+	syncPlotToScroll();
+</script>
+
+<style>
+	.double-descent {
+		--blue: #185ee6;
+		--beyond: #ff6b45;
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		border: 1px solid rgba(17,19,18,.82);
+		background: #fbfcff;
+		box-shadow: 0 26px 80px rgba(39, 59, 92, .10);
+		transition: width .5s cubic-bezier(.2,.75,.2,1), transform .5s cubic-bezier(.2,.75,.2,1);
+	}
+	.plot-head { display: flex; min-height: 64px; align-items: center; padding: 1rem 1.1rem; border-bottom: 1px solid rgba(17,19,18,.12); }
+	.plot-head p { margin: 0; color: var(--ink); font: 650 .66rem/1.5 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+	.double-descent svg { display: block; width: 100%; height: auto; }
+	.plot-surface { fill: #fbfcff; }
+	.axes path { fill: none; stroke: rgba(17,19,18,.52); stroke-width: 1.35; }
+	.axes .axis-arrow { stroke-linecap: round; stroke-linejoin: round; }
+	.axis-title { fill: var(--ink); font: 650 13px var(--mono); letter-spacing: .06em; }
+	.x-title { text-anchor: middle; }
+	.curve-area { fill: url(#curve-area); opacity: .65; transition: opacity .4s; }
+	.training-curve { fill: none; stroke: #cfc8bc; stroke-width: 2.5; stroke-linecap: round; }
+	.test-base { fill: none; stroke: #c4cbd8; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+	.test-progress { fill: none; stroke: var(--blue); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .7s cubic-bezier(.2,.75,.2,1); }
+	.beyond-curve { fill: none; stroke: url(#beyond-gradient); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s .08s cubic-bezier(.2,.75,.2,1); }
+	.beyond-revealed .beyond-curve { stroke-dashoffset: 0; }
+	.nav-points a { color: #7a7f89; text-decoration: none; }
+	.nav-points circle:not(.beyond-ring) { fill: #fbfcff; stroke: currentColor; stroke-width: 2.5; transition: fill .2s, stroke .2s, r .2s; }
+	.curve-caption { font: 700 11px var(--mono); letter-spacing: .08em; }
+	.testing-caption { fill: var(--blue); }
+	.training-caption { fill: #a89f91; }
+	.nav-points text { fill: currentColor; font: 650 22px var(--sans); letter-spacing: -.015em; }
+	.nav-points .point-number { font: 14px var(--mono); letter-spacing: .03em; }
+	.nav-points a:hover, .nav-points a:focus-visible, .nav-points a.visited { color: var(--blue); }
+	.nav-points a.current circle:not(.beyond-ring) { fill: var(--blue); stroke: #0b3188; r: 14; }
+	.beyond-point { color: var(--beyond) !important; cursor: pointer; }
+	.beyond-ring { fill: transparent; stroke: var(--beyond); stroke-width: 1.5; opacity: .32; transform-origin: 700px 475px; animation: beyond-pulse 2.4s ease-out infinite; }
+	.beyond-point circle:not(.beyond-ring) { fill: #fbfcff; stroke: var(--beyond); }
+	.beyond-point:hover circle:not(.beyond-ring), .beyond-point:focus-visible circle:not(.beyond-ring) { fill: var(--beyond); }
+	.beyond-revealed .beyond-ring { animation: none; opacity: .18; }
+	.beyond-revealed .beyond-point circle:not(.beyond-ring) { fill: var(--beyond); stroke: #9b3219; }
+	@keyframes beyond-pulse { 0% { transform: scale(.66); opacity: .45; } 75%, 100% { transform: scale(1.2); opacity: 0; } }
+
+	@media (min-width: 1001px) {
+		.double-descent.is-compact { width: 78%; margin-left: auto; transform: translateY(-1rem); }
+		.double-descent.is-compact .plot-head { min-height: 56px; padding-block: .75rem; }
+	}
+
+	@media (max-width: 700px) {
+		.double-descent { overflow-x: auto; }
+		.double-descent svg { min-width: 520px; }
+		.plot-head { position: sticky; left: 0; z-index: 2; width: calc(100vw - 2 * var(--gutter)); min-height: 56px; background: #fbfcff; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.beyond-ring { animation: none; }
+	}
+</style>
